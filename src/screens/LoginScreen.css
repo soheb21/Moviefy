@@ -1,0 +1,136 @@
+.login {
+  position: relative;
+  height: 100%;
+  background: url("https://cutewallpaper.org/21/1920x1080-wallpaper-tv-shows/210695701.jpg")
+    center no-repeat;
+  background-size: cover;
+}
+.login_logo {
+  position: fixed;
+  left: 0;
+  width: 100px;
+  object-fit: contain;
+  padding-left: 20px;
+  border-radius: 50%;
+  transition: transform 450ms;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.login_logo:hover {
+  transform: scale(1.09);
+}
+.singin_btn {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  padding: 10px 20px;
+  background-color:#033249;
+  color: white;
+  border: none;
+  outline: none;
+  transition: transform 450ms;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+.singin_btn:hover {
+  transform: scale(1.09);
+  color: black;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+.login_gradiant {
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  background: rgb(0, 0, 0, 0.7);
+}
+.login_body {
+  position: absolute;
+  top: 30%;
+  z-index: 1;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+}
+.login_body > h1 {
+  font-size: 3.125rem;
+  margin-bottom: 20px;
+}
+.login_body > h2 {
+  font-weight: 350;
+  font-size: 1.4rem;
+}
+.login_input {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.login_input > input {
+  padding: 10px;
+  width: 600px;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+}
+.login_input > button {
+  padding: 15px;
+  background-color: #033249;
+  color: white;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  width: 120px;
+  transition: transform 450ms;
+}
+.login_input > button:hover {
+  transform: scale(1.09);
+  color: black;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+    .login{
+        height: 100%;
+        width: 100%;
+    }
+  .login_logo {
+    width: 75px;
+    object-fit: contain;
+    padding-left: 20px;
+    border-radius: 50%;
+    transition: transform 450ms;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  .login_logo:hover {
+    transform: scale(1.09);
+  }
+  .singin_btn{
+    padding: 6px 12px;
+    font-size: 1rem;
+  }
+  .login_body > h1 {
+    font-size: 1.125rem;
+    margin-bottom: 10px;
+  }
+  .login_body > h2 {
+    font-weight: 350;
+    font-size: 1rem;
+  }
+  .login_input > input {
+    padding: 7px;
+    width: 350px;
+    font-size: 1rem;
+   
+  }
+  .login_input > button {
+    padding: 9px;
+    
+    width: 80px;
+
+  }
+}
