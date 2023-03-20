@@ -2,53 +2,87 @@ import axios from "./axios";
 import React, { useEffect, useState } from "react";
 import "./Banner.css";
 import requests from "./Requests";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+import { Link } from "react-router-dom";
+import YouTube from "react-youtube";
+import movieTrailer from "movie-trailer";
 function Banner() {
-  const [movie, setMovie] = useState([]);
+  const [movies, setMovie] = useState([]);
+  const [trailerUrl, setrailerUrl] = useState("");
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios.get(requests.fetchNetflixOriginals);
-      setMovie(
-        request.data.results[
-          Math.floor(Math.random() * request.data.results.length - 1)
-        ]
-      );
+      const request = await axios.get(requests.fetchTopRated);
+      setMovie(request.data.results);
       return request;
     }
 
     fetchData();
   }, []);
 
-  console.log(movie);
 
   function truncate(string, n) {
     return string?.length > n ? string.substr(0, n - 1) + "..." : string;
   }
+  const opts = {
+    height: "390",
+    width: "100%",
+    playVars: {
+      autoplay: 1,
+    }
+  }
+  const handleClick = (movie) => {
+    if (trailerUrl) {
+      setrailerUrl("");
+    }
+    else {
+      movieTrailer(movie?.title || movie?.original_title || movie?.name || "")
+        .then((url) => {
+          const urlName = new URLSearchParams(new URL(url).search)
+          setrailerUrl(urlName.get("v"));
+        })
+        .catch((err) => {
+          console.log("Error bola:", err);
+        })
+
+    }
+  }
 
   return (
-    <header
-      className="banner"
-      style={{
-        backgroundSize: "cover",
-        backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
-        backgroundPosition: "center centre",
-      }}
-    >
-      <div className="banner__contents">
-        <h1 className="banner__title">
-          {movie?.title || movie?.name || movie?.origianl_name}
-        </h1>
-        <div className="banner__buttons">
-          <button className="banner__button">Play</button>
-          <button className="banner__button">My List</button>
-        </div>
-        <h1 className="banner__description">
-          {truncate(movie?.overview, 150)}
-        </h1>
+    <>
+      <div className="poster">
+        <Carousel
+          showThumbs={true}
+          autoPlay={true}
+          transitionTime={3}
+          infiniteLoop={true}
+          showStatus={false}
+        >
+          {
+            movies.map(movie => (
+              <Link style={{ textDecoration: "none", color: "white" }} onClick={() => handleClick(movie)} >
+                <div className="posterImage">
+                  <img src={`https://image.tmdb.org/t/p/original${movie && movie.backdrop_path}`} />
+                </div>
+                <div className="posterImage__overlay">
+                  <div className="posterImage__title">{movie ? movie.original_title : "" || movie ? movie.title : "" || movie ? movie.name : ""}</div>
+                  <div className="posterImage__runtime">
+                    {movie ? movie.release_date : ""}
+                    <span className="posterImage__rating">
+                      {movie ? movie.vote_average : ""}
+                      <i className="fas fa-star" />{" "}
+                    </span>
+                  </div>
+                  <div className="posterImage__description">{movie ? movie.overview:"" }</div>
+                </div>
+              </Link>
+            ))
+          }
+        </Carousel>
+        {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       </div>
-      <div className="banner--fadeBottom" />
-    </header>
+    </>
   );
 }
 
